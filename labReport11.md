@@ -17,3 +17,7 @@ Q7 - This program does not have the same error as the previous program, as when 
 Q8 - This program has essentially implemented its own simple spin-lock, which will cause the main program to waste CPU resources by using its time to spin in the while loop while waiting for the child to be done. If he child takes a long time to complete, the main program will waste significant CPU resources on spinning every time it's given the CPU. 
 
 Q9 - Running Helgrind on this program, it reports 1 error, specifically that there is a race condition between our print statements. This is incorrect as the spin-lock behavior of the program will prevent the aforementioned race condition.
+
+Q10 - Whilst both `main-signal.c` and `main-signal-cv.c` will both ensure the order of the print statements (and are thereby correct), `main-signal-cv.c` is preffered as it has much better performance for long-running workers than `main-signal.c`, as instead of wasting CPU resources on an empty loop, the main program enters a waiting state, where it waits for the required lock to be released before doing anything. 
+
+Q11 - Helgrind reports 0 errors. 
