@@ -12,4 +12,4 @@ Q5 - While using this code, I found it was much easier to spot the deadlocking b
   
 Q6 - Helgrind reported 1 error and specified that the order the locks were aquired must be consistent to prevent this behavior.
 
-
+Q7 - This program does not have the same error as the previous program, as when one thread is aquiring and releasing locks, the other thread must wait on lock `g`. This prevents the behavior seen in the previous version, as only one thread is able to aquire and release locks at a time. Despite the problem being fixed, Helgrind still reports the error. This tells me that tools like Helgrind are not perfect, as it can identify errors that don't exist, but still valuable to identify bad behavior and poorly written code (as even though the issue is 'solved', it would be much safer to aquire the locks in a consistent sequence like Helgrind suggested, as then we wouldn't need lock g and would be protected in the case where another programmer removed lock g without considering the potential consequences of such an action). 
