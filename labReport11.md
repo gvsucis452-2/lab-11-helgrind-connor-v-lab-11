@@ -18,6 +18,9 @@ Q8 - This program has implemented its own simple spin lock, which wastes CPU res
 
 Q9 - Running Helgrind on this program, it reports 1 error: a race condition on the variable `done`. This is correct, as the signal variable `done` isn't synchronized between the main thread and the worker thread, meaning `done` could be updated in the worker thread, but not in the main thread, which could cause the main thread to become stuck spinning indefinitely.
 
+**zk**  But, wouldn't the  main thread see the update eventually?
+
+
 Q10 - The reason why `main-signal-cv.c` is preferred to  `main-signal.c` is that `main-signal-cv.c` fixes the race condition we noted in question 9, as, instead of relying on undefined behavior to share the variable `done` between the main thread and the worker thread, we use mutexes and conditional variables to make sure that the variable `done` is communicated between threads. Additionally, `main-signal-cv.c` puts the main thread to sleep while it waits for the worker thread to complete, rather than allowing it to spin, thereby improving performance because CPU resources aren't wasted on spinning.
 
 Q11 - Helgrind reports 0 errors. 
